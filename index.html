@@ -1,0 +1,87 @@
+<HTML>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <BODY>
+        <h1> Doctor's Appointment Portal</h1>
+        <label for="apt">Enter your desired appointment time: </label>
+        <input type='text' id="apt" placeholder="5 pm" /> 
+        <button onclick="setApt()">Enter time</button>
+        <!-- <br /> -->
+        
+
+        <button onclick="getApt()">Get random time</button>
+        
+        
+    </BODY>
+
+
+    <script
+    src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+    type="application/javascript"
+  ></script>
+
+    <script>
+     const provider = new ethers.providers.Web3Provider(
+      window.ethereum,
+      "ropsten"
+    );              
+        const AptContractAddress = "0x77d0D4a798f88937714E43b406791cF08695Ef57";
+        const AptContractABI = [
+	{
+		"inputs": [],
+		"name": "getApt",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_time",
+				"type": "string"
+			}
+		],
+		"name": "setApt",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
+
+
+        
+
+        let AptContract;
+        let signer; 
+        provider.send("eth_requestAccounts", []).then(() => {
+        provider.listAccounts().then(function (accounts) {
+            signer = provider.getSigner(accounts[0]);
+            AptContract = new ethers.Contract(
+                AptContractAddress,
+                AptContractABI,
+                signer
+            );
+        });
+    });
+        async function getApt(){
+            const getAptPromise = AptContract.getApt();
+            const Apt = await getAptPromise;
+            console.log(Apt);
+        }
+ 
+        async function setApt(){
+            let apt = document.getElementById("apt").value;
+            const setAptPromise = AptContract.setApt(apt);
+            await setAptPromise;
+        }
+    </script>
+
+</HTML>

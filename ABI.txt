@@ -1,0 +1,28 @@
+[
+	{
+		"inputs": [],
+		"name": "getApt",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_time",
+				"type": "string"
+			}
+		],
+		"name": "setApt",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
